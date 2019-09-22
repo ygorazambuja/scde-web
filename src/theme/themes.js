@@ -1,8 +1,9 @@
-export const theme = {
+const theme = {
   global: {
     font: {
-      family: "Raleway",
-      size: "1.2em"
-    }
-  }
+      family: 'Raleway',
+      size: '1.2em',
+    },
+  },
 };
+export default theme;

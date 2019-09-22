@@ -1,16 +1,19 @@
-import React from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Busca from "./pages/Busca";
-import Home from "./pages/Home";
-import Recados from "./pages/Recados";
-import Documentacao from "./pages/Documentacao";
-import CadastrarDocumentacao from "./pages/CadastrarDocumentacao";
-import ListarDocumentacao from "./pages/ListarDocumentacao";
+import Busca from './pages/Busca';
+import Home from './pages/Home';
+import Recados from './pages/Recados';
+import Documentacao from './pages/Documentacao';
+import CadastrarDocumentacao from './pages/CadastrarDocumentacao';
+import ListarDocumentacao from './pages/ListarDocumentacao';
+import Login from './pages/Login';
+
 const routes = () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/" exact component={Home} />
+      <Route path="/" exact component={Login} />
+      <Route path="/home" exact component={Home} />
       <Route path="/busca" component={Busca} />
       <Route path="/recados" component={Recados} />
       <Route path="/documentacao" component={Documentacao} />
