@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {
- Box, Grommet, Heading, Button, Clock
+ Box, Grommet, Heading, Button, Clock, grommet
 } from 'grommet';
 import { Search, Edit, Chat } from 'grommet-icons';
 import { Link } from 'react-router-dom';
-import theme from '../../theme/themes';
 
 const styles = {
     button: {
@@ -19,7 +18,7 @@ export default class App extends Component {
 
     render() {
         return (
-          <Grommet theme={theme}>
+          <Grommet theme={grommet}>
             <Box style={{ justifyContent: 'center', alignItems: 'center' }}>
               <Box
                 align="center"
@@ -51,6 +50,15 @@ export default class App extends Component {
                   <Box style={{ padding: 20, margin: 10 }}>
                     <Link to="/recados">
                       <Button icon={<Chat />} label="Recados" style={styles.button} />
+                    </Link>
+                  </Box>
+                  <Box style={{ padding: 20, margin: 10 }}>
+                    <Link to="/gerarDocumentos">
+                      <Button
+                        icon={<Chat />}
+                        label="Gerar Documentos"
+                        style={styles.button}
+                      />
                     </Link>
                   </Box>
                 </Box>

@@ -8,6 +8,8 @@ import Documentacao from './pages/Documentacao';
 import CadastrarDocumentacao from './pages/CadastrarDocumentacao';
 import ListarDocumentacao from './pages/ListarDocumentacao';
 import Login from './pages/Login';
+import GerarDocumentos from './pages/GerarDocumentos';
+import CancelamentoMatricula from './relatorios/CancelamentoMatricula';
 
 const routes = () => (
   <BrowserRouter>
@@ -15,10 +17,12 @@ const routes = () => (
       <Route path="/" exact component={Login} />
       <Route path="/home" exact component={Home} />
       <Route path="/busca" component={Busca} />
-      <Route path="/recados" component={Recados} />
+      {/* <Route path="/recados" component={Recados} /> */}
       <Route path="/documentacao" component={Documentacao} />
       <Route path="/cadastrarDocumentacao" component={CadastrarDocumentacao} />
       <Route path="/listarDocumentacao" component={ListarDocumentacao} />
+      <Route path="/gerarDocumentos" component={GerarDocumentos} />
+      <Route path="/cancelamentoDeMatricula" component={CancelamentoMatricula} />
     </Switch>
   </BrowserRouter>
 );
