@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  PDFViewer, Document, View, Text, Image, Page, StyleSheet
+   Document, View, Text, Image, Page, StyleSheet, pdf
 } from '@react-pdf/renderer';
 import brasao from '../images/brasao.png';
 
@@ -78,30 +78,30 @@ const Footer = ({ dia, mes, ano }) => {
 const Body = ({
   nomeDoResponsavel, rg, orgaoExpedidor, cpf, nomeDoAluno
 }) => (
-    <View>
-      <Text style={{
+  <View>
+    <Text style={{
         marginTop: 40, textAlign: 'justify', lineHeight: 1.8, fontSize: 14
       }}
-      >
-        Eu,
-        {nomeDoResponsavel}
-        , abaixo firmado com o RG:
-        {rg}
-        -
-        {orgaoExpedidor}
-        , CPF nº:
-        {cpf}
-        , vem pelo presente requerer a direção da escola o CANCELAMENTO da
-        matricula do aluno(a)
-        {nomeDoAluno}
-        , pelos motivos abaixo expostos:
+    >
+      Eu,
+      {nomeDoResponsavel}
+      , abaixo firmado com o RG:
+      {rg}
+      -
+      {orgaoExpedidor}
+      , CPF nº:
+      {cpf}
+      , vem pelo presente requerer a direção da escola o CANCELAMENTO da
+      matricula do aluno(a)
+      {nomeDoAluno}
+      , pelos motivos abaixo expostos:
 
-      </Text>
-    </View>
+    </Text>
+  </View>
   );
 
 
-const MyDocument = ({
+export const MyDocument = ({
   nomeDoResponsavel,
   rg,
   orgaoExpedidor,
@@ -112,27 +112,24 @@ const MyDocument = ({
   ano,
   nomeDoAluno
 }) => (
-    <PDFViewer style={{ height: '100%', width: '100%', position: 'absolute' }}>
-      <Document>
-        <Page size="A4" style={styles.page}>
-          <Header />
-          <Body
-            nomeDoResponsavel={nomeDoResponsavel}
-            rg={rg}
-            orgaoExpedidor={orgaoExpedidor}
-            cpf={cpf}
-            nomeDoAluno={nomeDoAluno}
-          />
-          <View>
-            <Text style={{ marginTop: 20 }}>{motivos}</Text>
-          </View>
-
-
-          <Footer dia={dia} mes={mes} ano={ano} />
-        </Page>
-      </Document>
-    </PDFViewer>
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <Header />
+      <Body
+        nomeDoResponsavel={nomeDoResponsavel}
+        rg={rg}
+        orgaoExpedidor={orgaoExpedidor}
+        cpf={cpf}
+        nomeDoAluno={nomeDoAluno}
+      />
+      <View>
+        <Text style={{ marginTop: 20 }}>{motivos}</Text>
+      </View>
+      <Footer dia={dia} mes={mes} ano={ano} />
+    </Page>
+  </Document>
   );
+
 
 MyDocument.propTypes = {
   nomeDoResponsavel: PropTypes.string.isRequired,
@@ -159,6 +156,3 @@ Body.propTypes = {
   cpf: PropTypes.string.isRequired,
   nomeDoAluno: PropTypes.string.isRequired
 };
-
-
-export default MyDocument;

@@ -1,160 +1,166 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
- Grommet, Box, Form, FormField, Button, Heading, CheckBox, Text
+ Box, Form, FormField, Button, Heading, CheckBox, Text
 } from 'grommet';
-
+import { HashLoader } from 'react-spinners';
 import { Link } from 'react-router-dom';
 import { Checkmark, FormPreviousLink } from 'grommet-icons';
-import theme from '../../theme/themes';
 import api from '../../services/api';
 
-const styles = {
-    checkbox: {
-        lineHeight: 1.2
-    }
+const INITIAL_STATE = {
+    aluno: '',
+    certidaoNascimento: false,
+    comprovanteEndereco: false,
+    carteiraVacina: false,
+    transferencia: false,
+    declaracaoTransferencia: false,
+    cartaoSus: false,
 };
 
-export default class CadastrarDocumentacao extends Component {
-    state = {
-        aluno: '',
-        certidaoNascimento: false,
-        comprovanteEndereco: false,
-        carteiraVacina: false,
-        transferencia: false,
-        declaracaoTransferencia: false,
-        loading: false
-    };
+const CadastrarDocumentacao = () => {
+    const [data, setData] = useState(INITIAL_STATE);
+    const [loading, setLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
-    verifica = () => {
-        // logica de verificação e validação
-        this.salva();
-    };
-
-    salva = () => {
-        const docs = { ...this.state };
-        delete docs.loading;
-        api.post('/documentacao', { ...this.state })
-            .then((res) => {
-                console.log(res);
+    const salva = () => {
+        setLoading(true);
+        api.post('/documentacao', { ...data })
+            .then(() => {
+                setData(INITIAL_STATE);
+                setLoading(false);
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
+                setLoading(false);
+                setIsError(true);
+                setInterval(() => {
+                    setIsError(false);
+                }, 5000);
             });
-        console.log(docs);
     };
 
-    render() {
-        const {
-            aluno,
-            certidaoNascimento,
-            carteiraVacina,
-            comprovanteEndereco,
-            declaracaoTransferencia,
-            transferencia
-        } = this.state;
-        return (
-          <Grommet theme={theme}>
-            <Box align="center" justify="center" style={{ marginBottom: '100px' }}>
-              <Box direction="row" align="center" pad="large">
-                <Box
-                  border={{ color: 'brand', size: 'medium', style: 'dashed' }}
-                  pad="small"
-                  style={{ marginRight: 10 }}
-                  round
-                >
-                  <Link to="/documentacao">
-                    <Button>
-                      <FormPreviousLink />
-                    </Button>
-                  </Link>
-                </Box>
+    const verifica = () => {
+        salva();
+    };
+    return (
+      <Box align="center" justify="center" gap="medium" margin="large">
+        <Box align="center" direction="row" justify="center" gap="medium">
+          <Box>
+            <Link to="/documentacao">
+              <Button>
+                <FormPreviousLink />
+              </Button>
+            </Link>
+          </Box>
+          <Heading>Cadastrar Aluno</Heading>
+        </Box>
+        <Box>
+          {loading && (
+          <Box justify="center" align="center">
+            <HashLoader
+              size={100}
+              sizeUnit="px"
+              css="margin-bottom: 100px;"
+            />
+          </Box>
+            )}
+          {isError && (
+          <Box justify="center" align="center">
+            <Text size="medium" color="primary">Ocorreu algum problema</Text>
+          </Box>
+)}
+          <Form>
+            <FormField
+              name="Nome"
+              label="Nome"
+              value={data.aluno}
+              onChange={e =>
+                            setData({ ...data, aluno: e.target.value })
+                        }
+            />
+            <Box justify="center" pad="large" margin="large">
+              <Heading>Documentos Necessarios:</Heading>
 
-                <Heading>Cadastrar Aluno</Heading>
+              <Box pad="small">
+                <CheckBox
+                  label="Certidão de Nascimento"
+                  checked={data.certidaoNascimento}
+                  onChange={event =>
+                                    setData({
+ ...data,
+                                        certidaoNascimento:
+                                            event.target.checked,
+                                    })
+                                }
+                />
               </Box>
 
-              <Form>
-                <FormField
-                  name="Nome"
-                  label="Nome"
-                  value={aluno}
-                  onChange={e => this.setState({ aluno: e.target.value })}
+              <Box pad="small">
+                <CheckBox
+                  label="Comprovante de Endereço (cidade ou fazenda)"
+                  checked={data.comprovanteEndereco}
+                  onChange={event =>
+                                    setData({
+ ...data,
+                                        comprovanteEndereco:
+                                            event.target.checked,
+                                    })
+                                }
                 />
-                <Box justify="center" pad="large" margin="large">
-                  <Text
-                    style={{
-                                    padding: '2rem',
-                                    fontWeight: 'bold',
-                                    fontSize: '2rem',
-                                    lineHeight: 1.2
-                                }}
-                  >
-                                Documentos Necessarios:
-                  </Text>
-
-                  <Box pad="small" style={styles.checkbox}>
-                    <CheckBox
-                      label="Certidão de Nascimento"
-                      checked={certidaoNascimento}
-                      onChange={event =>
-                                        this.setState({ certidaoNascimento: event.target.checked })
-                                    }
-                    />
-                  </Box>
-
-                  <Box pad="small" style={styles.checkbox}>
-                    <CheckBox
-                      label="Comprovante de Endereço (cidade ou fazenda)"
-                      checked={comprovanteEndereco}
-                      onChange={event =>
-                                        this.setState({ comprovanteEndereco: event.target.checked })
-                                    }
-                    />
-                  </Box>
-                  <Box pad="small" style={styles.checkbox}>
-                    <CheckBox
-                      label="Carteira de Vacina"
-                      checked={carteiraVacina}
-                      onChange={event =>
-                                        this.setState({ carteiraVacina: event.target.checked })
-                                    }
-                    />
-                  </Box>
-                  <Box pad="small" style={styles.checkbox}>
-                    <CheckBox
-                      label="Transferência"
-                      checked={transferencia}
-                      onChange={event =>
-                                        this.setState({
-                                            transferencia: event.target.checked,
-                                            declaracaoTransferencia: event.target.checked
-                                        })
-                                    }
-                    />
-                  </Box>
-                  <Box pad="small" style={styles.checkbox}>
-                    <CheckBox
-                      label="Declaração de Transferência"
-                      checked={declaracaoTransferencia}
-                      onChange={event =>
-                                        this.setState({
-                                            declaracaoTransferencia: event.target.checked
-                                        })
-                                    }
-                    />
-                  </Box>
-                </Box>
-                <Box>
-                  <Button
-                    onClick={this.verifica}
-                    onSubmit={this.verifica}
-                    label="Salvar"
-                    icon={<Checkmark color="green" />}
-                    style={{ backgroundColor: '#2ecc71', color: 'white' }}
-                  />
-                </Box>
-              </Form>
+              </Box>
+              <Box pad="small">
+                <CheckBox
+                  label="Carteira de Vacina"
+                  checked={data.carteiraVacina}
+                  onChange={event =>
+                                    setData({
+ ...data,
+                                        carteiraVacina: event.target.checked,
+                                    })
+                                }
+                />
+              </Box>
+              <Box pad="small">
+                <CheckBox
+                  label="Transferência"
+                  checked={data.transferencia}
+                  onChange={event =>
+                                    setData({
+ ...data,
+                                        transferencia: event.target.checked,
+                                        declaracaoTransferencia:
+                                            event.target.checked,
+                                    })
+                                }
+                />
+              </Box>
+              <Box pad="small">
+                <CheckBox
+                  label="Declaração de Transferência"
+                  checked={data.declaracaoTransferencia}
+                  onChange={event =>
+                                    setData({
+ ...data,
+                                        declaracaoTransferencia:
+                                            event.target.checked,
+                                    })
+                                }
+                />
+              </Box>
             </Box>
-          </Grommet>
-        );
-    }
-}
+            <Box>
+              <Button
+                onClick={verifica}
+                onSubmit={verifica}
+                label="Salvar"
+                primary
+                size="large"
+                icon={<Checkmark color="green" />}
+              />
+            </Box>
+          </Form>
+        </Box>
+      </Box>
+    );
+};
+
+export default CadastrarDocumentacao;

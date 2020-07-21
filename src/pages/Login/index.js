@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import {
- Grommet, FormField, Button, Box, Form
+  FormField, Button, Box, Form
 } from 'grommet';
 import { Send, Checkmark } from 'grommet-icons';
 import styled from 'styled-components';
-import theme from '../../theme/themes';
 
 import api from '../../services/api';
 
@@ -57,7 +56,7 @@ export default class Login extends Component {
 
     render() {
         return (
-          <Grommet theme={theme}>
+          <>
             <Box align="center" justify="center">
               <h1>{'{SCDE}'}</h1>
               <Form>
@@ -91,7 +90,7 @@ export default class Login extends Component {
             <Box style={{ position: 'absolute', bottom: 0 }}>
               <h3 style={{ color: 'lightgrey' }}>whatever it takes</h3>
             </Box>
-          </Grommet>
+          </>
         );
     }
 }

@@ -46,7 +46,7 @@ export default class Recados extends Component {
     render() {
         const { recados } = this.state;
         return (
-          <Grommet theme={theme}>
+          <>
             <Box direction="row" align="center" pad="small" style={{ padding: 10 }}>
               <Box border={{ color: 'brand', size: 'small', style: 'dashed' }} round>
                 <Link to="/">
@@ -61,7 +61,7 @@ export default class Recados extends Component {
                 <Recado recado={recado} key={recado._id} />
                     ))}
             </Box>
-          </Grommet>
+          </>
         );
     }
 }

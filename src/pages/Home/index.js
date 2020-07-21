@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
-  Box, Grommet, Heading, Button, Clock, grommet
+  Box, Heading, Button, Clock, 
 } from 'grommet';
-import { Search, Edit, Chat, Catalog } from 'grommet-icons';
+import {
+ Search, Edit, Chat, Catalog 
+} from 'grommet-icons';
 import { Link } from 'react-router-dom';
 
 const styles = {
@@ -18,7 +20,7 @@ export default class App extends Component {
 
   render() {
     return (
-      <Grommet theme={grommet}>
+      <>
         <Box style={{ justifyContent: 'center', alignItems: 'center' }}>
           <Box
             align="center"
@@ -64,7 +66,7 @@ export default class App extends Component {
             </Box>
           </Box>
         </Box>
-      </Grommet>
+      </>
     );
   }
 }

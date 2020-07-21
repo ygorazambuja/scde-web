@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
-  Grommet, grommet, Box, Button, Form, FormField, TextInput, TextArea
+ Box, Button, Form, FormField, TextInput, TextArea, Heading
 } from 'grommet';
+import { Link } from 'react-router-dom';
+import { FormPreviousLink } from 'grommet-icons';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import { MyDocument } from './CancelamentoPdf';
 
-import ReactDOM from 'react-dom';
-import CancelamentoPdf from './CancelamentoPdf';
-
-export default class CancelamentoMatricula extends Component {
-  state = {
+const INITIAL_DATA = {
     nomeDoResponsavel: '',
     rg: '',
     orgaoExpedidor: '',
@@ -16,83 +16,70 @@ export default class CancelamentoMatricula extends Component {
     dia: new Date().getDate(),
     mes: new Date().getMonth(),
     ano: new Date().getFullYear(),
-    nomeDoAluno: ''
-  };
+    nomeDoAluno: '',
+};
+const CancelamentoMatricula = () => {
+    const [data, setData] = useState(INITIAL_DATA);
 
-  handleNomeChange = evt => this.setState({ nomeDoResponsavel: evt.target.value });
-
-  handleRg = evt => this.setState({ rg: evt.target.value });
-
-  handleOrgaoExpedidor = evt => this.setState({ orgaoExpedidor: evt.target.value });
-
-  handleCpf = evt => this.setState({ cpf: evt.target.value });
-
-  handleMotivos = evt => this.setState({ motivos: evt.target.value });
-
-  handleAlunoChange = evt => this.setState({ nomeDoAluno: evt.target.value });
-
-  componentDidMount = () => {
-  };
-
-  render() {
-    const {
-      nomeDoResponsavel, rg, motivos, cpf, orgaoExpedidor, nomeDoAluno
-    } = this.state;
     return (
-      <Grommet theme={grommet}>
-        <Box justify="center">
-          <Form>
-            <FormField label="Nome do Responsável">
-              <TextInput
-                placeholder="digite aqui !"
-                value={nomeDoResponsavel}
-                onChange={this.handleNomeChange}
-              />
-            </FormField>
-            <FormField label="Nome do Aluno">
-              <TextInput
-                placeholder="digite aqui!"
-                value={nomeDoAluno}
-                onChange={this.handleAlunoChange}
-              />
-            </FormField>
-            <FormField label="RG: ">
-              <TextInput
-                placeholder="digite aqui !"
-                value={rg}
-                onChange={this.handleRg}
-              />
-            </FormField>
-            <FormField label="Orgão Expedidor: ">
-              <TextInput
-                placeholder="digite aqui !"
-                value={orgaoExpedidor}
-                onChange={this.handleOrgaoExpedidor}
-              />
-            </FormField>
-            <FormField label="CPF: ">
-              <TextInput
-                placeholder="digite aqui !"
-                value={cpf}
-                onChange={this.handleCpf}
-              />
-            </FormField>
-            <FormField label="Motivos: ">
-              <TextArea
-                placeholder="digite aqui !"
-                value={motivos}
-                onChange={this.handleMotivos}
-              />
-            </FormField>
-          </Form>
+      <Box gap="large" pad="large">
+        <Box direction="row" align="center" justify="center">
+          <Link to="/gerarDocumentos">
+            <Button label="" icon={<FormPreviousLink size="30px" />} />
+          </Link>
+          <Heading textAlign="center" size="small">
+            Requerimento de Cancelamento
+          </Heading>
         </Box>
-        <Box>
-          <Button
-            label="Gerar! "
-            onClick={() => { ReactDOM.render(<CancelamentoPdf {...this.state} />, document.getElementById('root')); }}
-          />
-        </Box>
-      </Grommet>
+        <Form>
+          <FormField label="Nome do Responsável">
+            <TextInput
+              placeholder="digite aqui !"
+              value={data.nomeDoResponsavel}
+              onChange={({ target }) => setData({ ...data, nomeDoResponsavel: target.value })}
+            />
+          </FormField>
+          <FormField label="Nome do Aluno">
+            <TextInput
+              placeholder="digite aqui!"
+              value={data.nomeDoAluno}
+              onChange={({ target }) => setData({ ...data, nomeDoAluno: target.value })}
+            />
+          </FormField>
+          <FormField label="RG: ">
+            <TextInput
+              placeholder="digite aqui !"
+              value={data.rg}
+              onChange={({ target }) => setData({ ...data, rg: target.value })}
+            />
+          </FormField>
+          <FormField label="Orgão Expedidor: ">
+            <TextInput
+              placeholder="digite aqui !"
+              value={data.orgaoExpedidor}
+              onChange={({ target }) => setData({ ...data, orgaoExpedidor: target.value })}
+            />
+          </FormField>
+          <FormField label="CPF: ">
+            <TextInput
+              placeholder="digite aqui !"
+              value={data.cpf}
+              onChange={({ target }) => setData({ ...data, cpf: target.value })}
+            />
+          </FormField>
+          <FormField label="Motivos: ">
+            <TextArea
+              placeholder="digite aqui !"
+              value={data.motivos}
+              onChange={({ target }) => setData({ ...data, motivos: target.value })}
+            />
+          </FormField>
+        </Form>
+        <PDFDownloadLink document={<MyDocument {...data} />}>
+          <Button primary label="Gerar !" fill="horizontal" />
+        </PDFDownloadLink>
+      </Box>
     );
-  }
-}
+};
+
+export default CancelamentoMatricula;
