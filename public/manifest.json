@@ -5,17 +5,19 @@
     "background_color": "#6a21f3",
     "display": "standalone",
     "scope": "/",
-    "start_url": "/",
+    "start_url": "/home",
     "icons": [
         {
             "src": "icon-512x512.png",
             "sizes": "512x512",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable"
         },
         {
             "src": "icon-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
+            "type": "image/png",
+            "purpose": "maskable"
         }
     ]
 }
