@@ -25,7 +25,6 @@ export default class App extends Component {
           <Box
             align="center"
             pad="medium"
-            border={{ color: 'brand', size: 'small' }}
             round
           >
             <Heading size="large">{'{SCDE}'}</Heading>
