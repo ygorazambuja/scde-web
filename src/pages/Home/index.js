@@ -40,7 +40,7 @@ export default class App extends Component {
                   />
                 </Link>
               </Box>
-              <Box style={{ padding: 20, margin: 10 }}>
+              {/*<Box style={{ padding: 20, margin: 10 }}>
                 <Link to="/documentacao">
                   <Button
                     icon={<Edit />}
@@ -62,7 +62,7 @@ export default class App extends Component {
                     style={styles.button}
                   />
                 </Link>
-              </Box>
+              </Box>*/}
             </Box>
           </Box>
         </Box>

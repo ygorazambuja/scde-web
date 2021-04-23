@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FormField, Button, Box, Form
 } from 'grommet';
 import { Send, Checkmark } from 'grommet-icons';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
@@ -13,66 +14,58 @@ const buttonTheme = {
     primary: true
 };
 
-export default class Login extends Component {
-    state = {
-        login: '',
-        senha: ''
-    };
+const Login = () => {
+    const history = useHistory();
 
-    componentDidMount = () => {
-        this.checkLoginBeforeLoad();
-    };
+    const [login, setLogin] = useState('');
+    const [senha, setSenha] = useState('');
 
-    checkLoginBeforeLoad = () => {
-        const { history } = this.props;
 
+    const checkLoginBeforeLoad = () => {
         const username = JSON.stringify(localStorage.getItem('@scde:user')) || undefined;
         const token = JSON.stringify(localStorage.getItem('@scde:token')) || undefined;
-
         if (token && username) history.push('/home');
     };
+    useEffect(() => checkLoginBeforeLoad(), []);
 
-    onLoginChange = e => this.setState({ login: e.target.value });
+    const onLoginChange = e => setLogin({ login: e.target.value });
 
-    onPasswordChange = e => this.setState({ senha: e.target.value });
+    const onPasswordChange = e => setSenha({ senha: e.target.value });
 
-    doLogin = async () => {
-        const { login, senha } = this.state;
-        const { history } = this.props;
-        const response = await api.post('/authenticateUser', {
+    const doLogin = async () => {
+        api.post('/login', {
             username: login,
             password: senha
+        }).then((data) => {
+            console.log(data);
+            localStorage.setItem('@scde:token', data.token);
+            localStorage.setItem('@scde:username', data.user.user);
+        }).catch((error) => {
+            console.log(error);
         });
-
-        if (response.data) {
-            localStorage.setItem('@scde:token', response.data.token);
-            localStorage.setItem('@scde:username', response.data.user.user);
-
-            history.push('/home');
-        }
     };
 
-    doSolicitarAcesso = async () => {};
+    const doSolicitarAcesso = async () => {};
 
-    render() {
+
         return (
           <>
             <Box align="center" justify="center">
               <h1>{'{SCDE}'}</h1>
               <Form>
-                <FormField label="Usuário" name="login" onChange={this.onLoginChange} />
+                <FormField label="Usuário" name="login" onChange={onLoginChange} />
                 <FormField
                   label="Senha"
                   name="password"
                   type="password"
-                  onChange={this.onPasswordChange}
+                  onChange={onPasswordChange}
                 />
                 <ButtonsContainer>
                   <Button
                     {...buttonTheme}
                     icon={<Checkmark />}
                     label="Entrar"
-                    onClick={this.doLogin}
+                    onClick={doLogin}
                     gap="medium"
                     style={{ marginBottom: 12 }}
                     type="submit"
@@ -81,7 +74,7 @@ export default class Login extends Component {
                     {...buttonTheme}
                     label="Solicitar Acesso"
                     icon={<Send />}
-                    onClick={this.doSolicitarAcesso}
+                    onClick={doSolicitarAcesso}
                     gap="medium"
                   />
                 </ButtonsContainer>
@@ -92,8 +85,9 @@ export default class Login extends Component {
             </Box>
           </>
         );
-    }
+    
 }
+export default Login
 
 const ButtonsContainer = styled.div`
     padding: 50px;

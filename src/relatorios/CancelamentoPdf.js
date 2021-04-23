@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
   page: {
     display: 'flex',
     flexDirection: 'column',
+    flexDirection: 'column',
     backgroundColor: '#F1F1F1',
     paddingTop: 35,
     paddingBottom: 65,
