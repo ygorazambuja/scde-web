@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { Box, Button, Heading } from 'grommet';
 
@@ -11,21 +11,19 @@ import AlunoDoc from '../../components/AlunoDoc';
 const ListarDocumentacao = () => {
   const [alunos, setAlunos] = useState([]);
 
-    const fetchDocumentacao = async () => {
-        const result = await api.get('/documentacao');
-        setAlunos(result.data);
-    };
+  const fetchDocumentacao = async () => {
+    const { data } = await api.get('/alunos');
+    setAlunos(data);
+  };
 
-    useEffect(() => {
-      fetchDocumentacao();
-    }, [0]);
+  useEffect(() => {
+    fetchDocumentacao();
+  }, [0]);
   return (
     <>
       <Box direction="column" align="center" pad="small">
         <Box direction="row" align="center" gap="medium" justify="between">
-          <Box
-            direction="row"
-          >
+          <Box direction="row">
             <Link to="/documentacao">
               <Button>
                 <FormPreviousLink size="large" />
@@ -38,10 +36,10 @@ const ListarDocumentacao = () => {
         </Box>
 
         <Box gap="small">
-          {alunos.map(aluno => (
-                            //  eslint-disable-next-line no-underscore-dangle
+          {alunos.map((aluno) => (
+            //  eslint-disable-next-line no-underscore-dangle
             <AlunoDoc data={aluno} key={aluno._id} />
-                         ))}
+          ))}
         </Box>
       </Box>
     </>
@@ -49,54 +47,3 @@ const ListarDocumentacao = () => {
 };
 
 export default ListarDocumentacao;
-
-
-// export default class ListarDocumentacao extends Component {
-//     state = {
-//         alunos: []
-//     };
-
-//     componentWillMount = () => {
-//         this.fetchDocumentacao();
-//     };
-
-//     fetchDocumentacao = async () => {
-//         const result = await api.get('/documentacao');
-//         this.setState({ alunos: [...result.data] });
-//     };
-
-//     render() {
-//         const { alunos } = this.state;
-//         return (
-//           <>
-//             <Box direction="column" style={{ alignItems: 'center' }} pad="small">
-//               <Box direction="row" align="center">
-//                 <Box
-//                   direction="row"
-//                   border={{ color: 'brand', size: 'small', style: 'dashed' }}
-//                   pad="small"
-//                   style={{ marginRight: 10 }}
-//                   round
-//                 >
-//                   <Link to="/documentacao">
-//                     <Button>
-//                       <FormPreviousLink />
-//                     </Button>
-//                   </Link>
-//                 </Box>
-//                 <Box align="center" justify="center">
-//                   <Heading>Devendo documentação</Heading>
-//                 </Box>
-//               </Box>
-
-//               <Box>
-//                 {alunos.map(aluno => (
-//                             // eslint-disable-next-line no-underscore-dangle
-//                   <AlunoDoc data={aluno} key={aluno._id} />
-//                         ))}
-//               </Box>
-//             </Box>
-//           </>
-//         );
-//     }
-// }
