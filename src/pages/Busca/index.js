@@ -10,64 +10,61 @@ import Aluno from '../../components/Aluno';
 import api from '../../services/api';
 
 const Busca = () => {
-    const [nameInput, setNameInput] = useState('');
-    const [dadosFiltrados, setDadosFiltrados] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [alunos, setAlunos] = useState({});
+  const [nameInput, setNameInput] = useState('');
+  const [dadosFiltrados, setDadosFiltrados] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [alunos, setAlunos] = useState({});
 
-    const fetchAlunosFromWeb = () => {
-        api.get('/alunos')
-            .then((res) => {
-                setAlunos(res.data);
-                setIsLoading(false);
-                setNameInput('');
-                const alunosString = res.data;
-                localStorage.setItem(
-                    '@scde:alunos',
-                    JSON.stringify(alunosString)
-                );
-            })
-            .catch(() => {});
-    };
+  const fetchAlunosFromWeb = () => {
+    api
+      .get('https://api-scde.herokuapp.com/alunos-antigos?_limit=8000')
+      .then((res) => {
+        setAlunos(res.data);
+        setIsLoading(false);
+        const alunosString = res.data;
+        localStorage.setItem('@scde:alunos', JSON.stringify(alunosString));
+      })
+      .catch(() => {});
+  };
 
-    const fetchAlunosFromLocalStorage = () => {
-        const alunosString = localStorage.getItem('@scde:alunos');
-        if (alunosString) {
-            const alunosParsed = JSON.parse(alunosString);
-            setIsLoading(false);
-            setAlunos(alunosParsed);
-        } else {
-            fetchAlunosFromWeb();
-        }
-    };
+  const fetchAlunosFromLocalStorage = () => {
+    const alunosString = localStorage.getItem('@scde:alunos');
+    if (alunosString) {
+      const alunosParsed = JSON.parse(alunosString);
+      setIsLoading(false);
+      setAlunos(alunosParsed);
+    } else {
+      fetchAlunosFromWeb();
+    }
+  };
 
-    const fetchAlunosFromLocalStorageOrWeb = () => {
-        fetchAlunosFromLocalStorage();
-    };
+  const fetchAlunosFromLocalStorageOrWeb = () => {
+    fetchAlunosFromLocalStorage();
+  };
 
-    const filterAlunos = (e) => {
-        e.preventDefault();
-        if (nameInput.trim().length !== 0) {
-          const filtro = alunos.filter((aluno) => {
-            const regex = new RegExp(nameInput, 'gi');
-            return regex.test(aluno.nome);
-        });
-        setDadosFiltrados(filtro);
-        }
-    };
+  const filterAlunos = (e) => {
+    e.preventDefault();
+    if (nameInput.trim().length !== 0) {
+      const filtro = alunos.filter((aluno) => {
+        const regex = new RegExp(nameInput, 'gi');
+        return regex.test(aluno.nome);
+      });
+      setDadosFiltrados(filtro);
+    }
+  };
 
-    const listRender = nameInput.trim() && (
+  const listRender = nameInput.trim() && (
     <Box pad="small">
       {dadosFiltrados.map(aluno => (
-                // eslint-disable-next-line no-underscore-dangle
+        // eslint-disable-next-line no-underscore-dangle
         <Aluno key={aluno._id} {...aluno} />
-            ))}
+      ))}
     </Box>
-    );
+  );
 
-    useEffect(() => {
-        fetchAlunosFromLocalStorageOrWeb();
-    }, []);
+  useEffect(() => {
+    fetchAlunosFromLocalStorageOrWeb();
+  }, []);
 
     useEffect(() => {
       if (nameInput === '') setDadosFiltrados([]);
@@ -97,12 +94,8 @@ const Busca = () => {
         
 
         {isLoading && (
-        <HashLoader
-          size={100}
-          sizeUnit="px"
-          css="margin-bottom: 100px;"
-        />
-            )}
+        <HashLoader size={100} sizeUnit="px" css="margin-bottom: 100px;" />
+      )}
         <Box>{listRender}</Box>
 
         {!dadosFiltrados.length && (
@@ -115,9 +108,9 @@ const Busca = () => {
             <strong> e tecle ENTER</strong>
           </Text>
         </Box>
-            )}
+      )}
       </Box>
-    );
+  );
 };
 
 export default Busca;
