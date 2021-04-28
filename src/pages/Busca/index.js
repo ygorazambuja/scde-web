@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import {
- Box, Heading, TextInput, Button, Text, Form, Footer 
+ Box, Heading, TextInput, Button, Text, Form, 
 } from 'grommet';
 import { Link } from 'react-router-dom';
 import { FormPreviousLink } from 'grommet-icons';
@@ -20,6 +20,7 @@ const Busca = () => {
             .then((res) => {
                 setAlunos(res.data);
                 setIsLoading(false);
+                setNameInput('');
                 const alunosString = res.data;
                 localStorage.setItem(
                     '@scde:alunos',
@@ -81,12 +82,16 @@ const Busca = () => {
         </Box>
         <Box margin="large">
           <Form onSubmit={filterAlunos}>
-            <TextInput
-              style={{ borderColor: '#7D4CDB' }}
-              placeholder="Pesquise Aqui !"
-              value={nameInput}
-              onChange={e => setNameInput(e.target.value)}
-            />
+            <Box direction="row">
+              <TextInput
+                style={{ borderColor: '#7D4CDB' }}
+                placeholder="Pesquise Aqui !"
+                value={nameInput}
+                onChange={e => setNameInput(e.target.value)}
+                disabled={isLoading}                
+              />
+              <Button primary label="Buscar" disabled={isLoading} onClick={e => filterAlunos(e)} />
+            </Box>
           </Form>
         </Box>
         
