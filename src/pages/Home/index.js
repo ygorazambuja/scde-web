@@ -1,6 +1,8 @@
 import React from 'react';
-import { Box, Heading, Button, Clock } from 'grommet';
-import { Search, Edit } from 'grommet-icons';
+import { 
+  Box, Heading, Button, Clock 
+} from 'grommet';
+import { Search } from 'grommet-icons';
 import { Link } from 'react-router-dom';
 
 const styles = {
@@ -11,8 +13,8 @@ const styles = {
   },
 };
 
-const App = () => {
-  return (
+const App = () => 
+  (
     <React.Fragment>
       <Box style={{ justifyContent: 'center', alignItems: 'center' }}>
         <Box align="center" pad="medium" round>
@@ -28,7 +30,7 @@ const App = () => {
                 />
               </Link>
             </Box>
-            <Box style={{ padding: 20, margin: 10 }}>
+            {/* <Box style={{ padding: 20, margin: 10 }}>
               <Link to="/documentacao">
                 <Button
                   icon={<Edit />}
@@ -36,7 +38,7 @@ const App = () => {
                   style={styles.button}
                 />
               </Link>
-            </Box>
+            </Box> */}
             {/*
               <Box style={{ padding: 20, margin: 10 }}>
                 <Link to="/recados">
@@ -57,6 +59,6 @@ const App = () => {
       </Box>
     </React.Fragment>
   );
-};
+
 
 export default App;
